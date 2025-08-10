@@ -1,43 +1,27 @@
-# Chirpy Starter
+## 안녕하세요, 백엔드 개발자 유혜진입니다.
 
-[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp;
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+**5년 차 Java/Spring 백엔드 개발자**로서, 견고하고 확장 가능한 시스템을 만드는 데 열정을 가지고 있습니다. 
 
-When installing the [**Chirpy**][chirpy] theme through [RubyGems.org][gem], Jekyll can only read files in the folders
-`_data`, `_layouts`, `_includes`, `_sass` and `assets`, as well as a small part of options of the `_config.yml` file
-from the theme's gem. If you have ever installed this theme gem, you can use the command
-`bundle info --path jekyll-theme-chirpy` to locate these files.
+다양한 도메인에서의 경험을 통해 문제 해결 능력을 길렀으며, 현재는 대규모 클라우드 마이그레이션 프로젝트를 통해 기술적 깊이를 더하고 있습니다. 복잡한 비즈니스 요구사항을 안정적인 코드로 구현하는 것을 즐깁니다.
 
-The Jekyll team claims that this is to leave the ball in the user’s court, but this also results in users not being
-able to enjoy the out-of-the-box experience when using feature-rich themes.
+이 블로그는 저의 **학습 과정, 문제 해결 경험, 그리고 기술적 생각**들을 기록하고 공유하는 공간입니다.
 
-To fully use all the features of **Chirpy**, you need to copy the other critical files from the theme's gem to your
-Jekyll site. The following is a list of targets:
+---
 
-```shell
-.
-├── _config.yml
-├── _plugins
-├── _tabs
-└── index.html
-```
+### 🚀 주요 경험 (Key Experiences)
 
-To save you time, and also in case you lose some files while copying, we extract those files/configurations of the
-latest version of the **Chirpy** theme and the [CD][CD] workflow to here, so that you can start writing in minutes.
+*   **기업 인사(HR) 시스템 운영 및 개발** (2년)
+*   **DRM 보안 솔루션 서버 개발** (2년)
 
-## Usage
+### 🛠️ 기술 스택 (Tech Stack)
 
-Check out the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy/wiki).
+*   **Language:** Java, SQL, javascript, VueJS
+*   **Framework:** Spring Boot, Spring MVC, MyBatis
+*   **Database:** Oracle, PostgreSQL(Basic), MySQL
+*   **Cloud & Infra:** AWS (EC2, S3, RDS), Docker
+*   **Etc:** Git, Jenkins, RESTful API, Gradle, SVN
 
-## Contributing
+### 📬 Contact
 
-This repository is automatically updated with new releases from the theme repository. If you encounter any issues or want to contribute to its improvement, please visit the [theme repository][chirpy] to provide feedback.
-
-## License
-
-This work is published under [MIT][mit] License.
-
-[gem]: https://rubygems.org/gems/jekyll-theme-chirpy
-[chirpy]: https://github.com/cotes2020/jekyll-theme-chirpy/
-[CD]: https://en.wikipedia.org/wiki/Continuous_deployment
-[mit]: https://github.com/cotes2020/chirpy-starter/blob/master/LICENSE
+*   **Email:** `hjryoo31@gmail.com`
+*   **GitHub:** `https://github.com/hjryoo?tab=repositories`
