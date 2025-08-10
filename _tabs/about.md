@@ -33,4 +33,4 @@ permalink: /about/
 ### 📬 Contact
 
 *   **Email:** `hjryoo31@gmail.com`
-*   **GitHub:** `https://github.com/hjryoo`
+*   **GitHub:** `https://github.com/hjryoo?tab=repositories`
