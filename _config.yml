@@ -37,7 +37,7 @@ social:
   name: Hye Jin Ryoo
   email: hjryoo31@gmail.com # change to your email address
   links:
-    url: https://github.com/hjryoo
+    - url: https://github.com/hjryoo
 
 # Site Verification Settings
 webmaster_verifications:
