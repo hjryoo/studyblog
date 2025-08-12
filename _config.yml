@@ -165,8 +165,12 @@ collections:
   tabs:
     output: true
     sort_by: order
+  techinfo:
+    output: true
+    permalink: /tech/:title/
 
 defaults:
+
   - scope:
       path: "" # An empty string here means all files in the project
       type: posts
@@ -187,6 +191,13 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: techinfo
+    values:
+      layout: post
+      comments: true
+      toc: true   
 
 sass:
   style: compressed

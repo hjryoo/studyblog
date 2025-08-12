@@ -1,0 +1,46 @@
+name: Fetch Latest Tech Blog Posts
+
+on:
+  # 매일 UTC 00:00 (한국 시간 오전 9시)에 실행
+  schedule:
+    - cron: '0 0 * * *'
+  # Actions 탭에서 수동으로 실행할 수 있도록 함
+  workflow_dispatch:
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 저장소 코드를 가져옴
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. pnpm 및 Node.js 환경 설정
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      # 3. 의존성 패키지 설치
+      - name: Install dependencies
+        run: pnpm install
+
+      # 4. RSS 피드 수집 스크립트 실행
+      - name: Fetch RSS feeds and create posts
+        run: node scripts/fetch-rss.mjs
+
+      # 5. 새로 생성된 마크다운 파일을 자동으로 커밋 및 푸시
+      - name: Commit and push new posts
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "feat: Add new posts from RSS feeds"
+          commit_options: '--no-verify'
+          repository: .
+          commit_user_name: "GitHub Actions Bot"
+          commit_user_email: "actions@github.com"
+          commit_author: "GitHub Actions Bot <actions@github.com>"
