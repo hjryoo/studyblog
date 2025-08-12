@@ -16,7 +16,8 @@ const RSS_FEEDS = [
   { url: 'https://techcrunch.com/category/artificial-intelligence/feed/' },
 ];
 
-const OUTPUT_DIR = path.join(process.cwd(), '_techinfo');
+//const OUTPUT_DIR = path.join(process.cwd(), '_techinfo');
+const OUTPUT_DIR = path.join(process.cwd(), '_posts'); 
 
 function formatDateForJekyll(date) {
   const pad = (num) => num.toString().padStart(2, '0');
@@ -79,7 +80,7 @@ function formatDateForJekyll(date) {
 title: "${item.title.replace(/"/g, '\\"')}"
 date: ${formatDateForJekyll(itemDate)}
 categories: [TechInfo]
-tags: ["${feedTitle.split(' ')[0]}", "auto-generated"]
+tags: ["${feedTitle.split(' ')[0]}", "RSS"]
 source: ${item.link}
 ---
 

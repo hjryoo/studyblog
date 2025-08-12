@@ -165,9 +165,9 @@ collections:
   tabs:
     output: true
     sort_by: order
-  techinfo:
-    output: true
-    permalink: /tech/:title/
+  # techinfo:
+  #   output: true
+  #   permalink: /tech/:title/
 
 defaults:
 
