@@ -54,6 +54,16 @@ function formatDateForJekyll(date) {
       const feedTitle = feed.title || feedConfig.url; // title이 없는 RSS 피드를 위한 예외 처리
       console.log(`- Fetched: ${feedTitle}`);
 
+      let postCounter = 0; // 1. 각 피드별로 생성된 포스트 수를 세는 카운터 초기화
+      const maxPostsPerFeed = 2; // 2. 피드당 최대 포스트 수를 2 설정
+
+      for (const item of feed.items) {
+        // 3. 카운터가 최대치에 도달하면 현재 피드의 루프를 중단
+        if (postCounter >= maxPostsPerFeed) {
+          console.log(`  - Reached max posts limit (${maxPostsPerFeed}) for this feed.`);
+          break; 
+      }
+      
       for (const item of feed.items) {
         if (!item.pubDate || !item.title) {
             console.log(`  - Skipping, item has no pubDate or title.`);
@@ -99,6 +109,8 @@ ${item.contentSnippet?.replace(/\n/g, ' ') || '요약 정보가 없습니다.'}
         // [수정] writeFileSync의 인자 오류 수정
         fs.writeFileSync(filePath, markdownContent);
         console.log(`  - Created: ${fileName}`);
+
+        postCounter++; // 4. 포스트를 성공적으로 생성한 후 카운터 1 증가
       }
     } catch (error) {
       console.error(`Error fetching feed from ${feedConfig.url}:`, error);

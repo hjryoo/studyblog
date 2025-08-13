@@ -7,6 +7,9 @@ on:
   # Actions 탭에서 수동으로 실행할 수 있도록 함
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   fetch-and-commit:
     runs-on: ubuntu-latest
