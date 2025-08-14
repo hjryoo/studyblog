@@ -12,7 +12,7 @@ const RSS_FEEDS = [
   { url: 'https://techcrunch.com/category/artificial-intelligence/feed/' },
 ];
 
-const OUTPUT_DIR = path.join(process.cwd(), '_posts'); 
+const OUTPUT_DIR = path.join(process.cwd(), '_posts');
 
 function formatDateForJekyll(date) {
   const pad = (num) => num.toString().padStart(2, '0');
@@ -27,58 +27,47 @@ function formatDateForJekyll(date) {
 
 (async () => {
   console.log('Fetching RSS feeds for Jekyll...');
-  
-  const parser = new Parser({
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    },
-  });
 
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - DAYS_TO_FETCH);
+  const cutOffDate = new Date();
+  cutOffDate.setDate(cutOffDate.getDate() - DAYS_TO_FETCH);
 
   for (const feedConfig of RSS_FEEDS) {
     try {
-      const parser = new Parser({ headers: feedConfig.headers }); // 파서를 루프 안에서 생성하여 각기 다른 헤더를 적용      
+      // [수정] 파서는 루프 안에서 각 피드의 헤더에 맞게 생성
+      const parser = new Parser({ headers: feedConfig.headers });
       const feed = await parser.parseURL(feedConfig.url);
       const feedTitle = feed.title || feedConfig.url;
       console.log(`- Fetched: ${feedTitle}`);
       
       let postCounter = 0;
       const maxPostsPerFeed = 2;
-      const cutOffDate = new Date();
-      cutOffDate.setDate(cutOffDate.getDate() - DAYS_TO_FETCH);
       
+      // [정리] 모든 로직을 하나의 for 루프로 통합
       for (const item of feed.items) {
-        // [개선] 날짜 체크를 가장 먼저 수행
+        // 1. 날짜 유효성 및 필수 데이터 체크
+        if (!item.pubDate || !item.title) {
+          console.log(`  - Skipping, item has no pubDate or title.`);
+          continue;
+        }
+
+        // 2. 오래된 기사인지 체크 (가장 먼저 수행하여 불필요한 작업 방지)
         const itemDate = new Date(item.pubDate);
         if (itemDate < cutOffDate) {
           console.log(`  - Skipping old items from this point.`);
-          break; // 현재 피드의 나머지 아이템은 모두 오래된 것이므로 루프 즉시 중단
-        }      
-      
-      // 하나의 for 루프로 통합
-      for (const item of feed.items) {
-        // 최대 포스트 수 체크
+          break; // 현재 피드의 나머지 아이템은 모두 더 오래된 것이므로 루프 중단
+        }
+
+        // 3. 피드당 최대 포스트 수 체크
         if (postCounter >= maxPostsPerFeed) {
           console.log(`  - Reached max posts limit (${maxPostsPerFeed}) for this feed.`);
           break; 
         }
         
-        if (!item.pubDate || !item.title) {
-          console.log(`  - Skipping, item has no pubDate or title.`);
-          continue;
-        }
-        
-        const itemDate = new Date(item.pubDate);
-        if (itemDate < sevenDaysAgo) {
-          continue;
-        }
-        
+        // 4. 파일명 생성 및 중복 체크
         const postDateStr = `${itemDate.getFullYear()}-${(itemDate.getMonth() + 1).toString().padStart(2, '0')}-${itemDate.getDate().toString().padStart(2, '0')}`;
         const safeTitle = item.title.replace(/[^a-zA-Z0-9가-힣\s]/g, '').replace(/\s+/g, '-').substring(0, 50);
         const fileName = `${postDateStr}-${safeTitle}.md`;
@@ -89,6 +78,7 @@ function formatDateForJekyll(date) {
           continue;
         }
         
+        // 5. 마크다운 콘텐츠 생성 및 파일 쓰기
         const markdownContent = `---
 title: "${item.title.replace(/"/g, '\\"')}"
 date: ${formatDateForJekyll(itemDate)}
@@ -109,7 +99,7 @@ ${item.contentSnippet?.replace(/\n/g, ' ') || '요약 정보가 없습니다.'}
         
         fs.writeFileSync(filePath, markdownContent);
         console.log(`  - Created: ${fileName}`);
-        postCounter++;
+        postCounter++; // 포스트 생성 후 카운터 증가
       }
     } catch (error) {
       console.error(`Error fetching feed from ${feedConfig.url}:`, error);
