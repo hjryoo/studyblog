@@ -6,7 +6,10 @@ const DAYS_TO_FETCH = 1;
 const RSS_FEEDS = [
   { url: 'https://toss.tech/rss.xml' },
   { url: 'https://tech.kakao.com/feed/' },
-  { url: 'https://techblog.woowahan.com/feed/' },
+  { 
+    url: 'https://techblog.woowahan.com/feed/',
+    headers: { 'User-Agent': 'Mozilla/5.0' }
+  },
   { url: 'https://medium.com/feed/daangn' },
   { url: 'https://helloworld.kurly.com/feed.xml' },
   { url: 'https://tech.devsisters.com/rss.xml' },
@@ -44,6 +47,7 @@ function formatDateForJekyll(date) {
 
   for (const feedConfig of RSS_FEEDS) {
     try {
+      const parser = new Parser({ headers: feedConfig.headers }); // 파서를 루프 안에서 생성하여 각기 다른 헤더를 적용      
       const feed = await parser.parseURL(feedConfig.url);
       const feedTitle = feed.title || feedConfig.url;
       console.log(`- Fetched: ${feedTitle}`);
