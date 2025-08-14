@@ -6,10 +6,6 @@ const DAYS_TO_FETCH = 1;
 const RSS_FEEDS = [
   { url: 'https://toss.tech/rss.xml' },
   { url: 'https://tech.kakao.com/feed/' },
-  { 
-    url: 'https://techblog.woowahan.com/feed/',
-    headers: { 'User-Agent': 'Mozilla/5.0' }
-  },
   { url: 'https://medium.com/feed/daangn' },
   { url: 'https://helloworld.kurly.com/feed.xml' },
   { url: 'https://tech.devsisters.com/rss.xml' },
