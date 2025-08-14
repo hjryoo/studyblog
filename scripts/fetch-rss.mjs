@@ -50,7 +50,9 @@ function formatDateForJekyll(date) {
       
       let postCounter = 0;
       const maxPostsPerFeed = 2;
-
+      const cutOffDate = new Date();
+      cutOffDate.setDate(cutOffDate.getDate() - DAYS_TO_FETCH);
+      
       for (const item of feed.items) {
         // [개선] 날짜 체크를 가장 먼저 수행
         const itemDate = new Date(item.pubDate);
