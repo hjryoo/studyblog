@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Tech Info Feed
-#permalink: /techinfo/
+permalink: /techinfo/
 ---
 
 <div class="post-list">
