@@ -4,8 +4,7 @@
 [build]
   # Jekyll 빌드 명령어입니다.
   command = "node scripts/fetch-rss.mjs && bundle exec jekyll build"
-  
-  # 빌드 결과물이 생성되는 폴더입니다.
+
   publish = "_site"
 
 # 빌드 환경에서 사용할 환경 변수입니다. (가장 중요)

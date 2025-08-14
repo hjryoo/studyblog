@@ -50,6 +50,14 @@ function formatDateForJekyll(date) {
       
       let postCounter = 0;
       const maxPostsPerFeed = 2;
+
+      for (const item of feed.items) {
+        // [개선] 날짜 체크를 가장 먼저 수행
+        const itemDate = new Date(item.pubDate);
+        if (itemDate < cutOffDate) {
+          console.log(`  - Skipping old items from this point.`);
+          break; // 현재 피드의 나머지 아이템은 모두 오래된 것이므로 루프 즉시 중단
+        }      
       
       // 하나의 for 루프로 통합
       for (const item of feed.items) {
