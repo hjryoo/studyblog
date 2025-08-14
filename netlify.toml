@@ -1,13 +1,18 @@
+# netlify.toml
+
+# 기본 빌드 설정을 정의합니다.
 [build]
-command = "bundle exec jekyll build"
-publish = "_site"
+  # Jekyll 빌드 명령어입니다.
+  command = "bundle exec jekyll build"
+  
+  # 빌드 결과물이 생성되는 폴더입니다.
+  publish = "_site"
 
+# 빌드 환경에서 사용할 환경 변수입니다. (가장 중요)
+# 이 설정만으로도 Netlify는 올바른 Ruby 환경을 구성합니다.
 [build.environment]
-JEKYLL_ENV = "production"
-RUBY_VERSION = "3.4.5"
-
-[[plugins]]
-package = "netlify-plugin-ruby"
-
-[context.production.environment]
-JEKYLL_ENV = "production"
+  # GitHub Actions에서 사용하던 Ruby 버전과 동일하게 맞춰줍니다.
+  RUBY_VERSION = "3.4.5" 
+  
+  # 프로덕션 환경으로 빌드하도록 설정합니다.
+  JEKYLL_ENV = "production"
