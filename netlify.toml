@@ -3,7 +3,8 @@
 # 기본 빌드 설정을 정의합니다.
 [build]
   # Jekyll 빌드 명령어입니다.
-  command = "node scripts/fetch-rss.mjs && bundle exec jekyll build"
+  # command = "node scripts/fetch-rss.mjs && bundle exec jekyll build"
+    command = "bundle exec jekyll build"
 
   publish = "_site"
 
