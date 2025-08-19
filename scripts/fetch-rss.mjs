@@ -9,7 +9,7 @@ const RSS_FEEDS = [
   { url: 'https://medium.com/feed/daangn' },
   { url: 'https://helloworld.kurly.com/feed.xml' },
   { url: 'https://tech.devsisters.com/rss.xml' },
-  { url: 'https://techcrunch.com/category/artificial-intelligence/feed/' },
+  { url: 'https://feeds.feedburner.com/geeknews-feed' },
 ];
 
 const OUTPUT_DIR = path.join(process.cwd(), '_posts');
