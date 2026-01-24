@@ -1,0 +1,21 @@
+backend:
+  name: git-gateway
+  branch: main # 또는 master
+
+media_folder: "assets/img" # 이미지 업로드 경로
+public_folder: "/assets/img"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "_posts"
+    create: true
+    path: "{{year}}/{{month}}/{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{title}}"
+    fields: # 글쓰기 에디터 UI 구성
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Categories", name: "categories", widget: "list"}
+      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Body", name: "body", widget: "markdown"}
