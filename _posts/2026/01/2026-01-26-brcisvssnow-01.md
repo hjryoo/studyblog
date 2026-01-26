@@ -8,9 +8,7 @@ tags: ["Data Warehouse", "Data Lake", "Lakehouse", "Spark", "SQL"]
 ## 서론: CDW와 Data Lake, 서로의 영역을 침범하다
 
 과거 데이터 생태계는 명확히 이분화되어 있었다. 정형 데이터 분석과 BI(Business Intelligence)를 위한 **Data Warehouse(DW)**, 그리고 비정형 데이터 처리와 ML/AI 워크로드를 위한 **Data Lake**.
-
 Snowflake는 클라우드 네이티브 DW로 시작하여 시장을 장악했고, Databricks는 Apache Spark를 기반으로 Data Lake의 연산 능력을 상용화하며 성장했다. 하지만 2026년 현재, 이 경계는 희미해졌다. Snowflake는 Snowpark를 통해 ML 영역으로, Databricks는 SQL Warehouse와 Photon 엔진을 통해 BI 영역으로 진출하며 **'Data Lakehouse'**라는 단일 아키텍처로 수렴하고 있다.
-
 하지만 두 플랫폼의 '뿌리(DNA)'는 여전히 현재의 기능과 UX, 그리고 비용 구조에 결정적인 영향을 미친다.
 
 ## 1. 태생적 차이 (Origin Story)
