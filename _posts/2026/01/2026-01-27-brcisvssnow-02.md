@@ -81,5 +81,5 @@ Delta Lake 역시 Parquet 파일의 Footer와 Delta Log에 통계 정보(Min/Max
 | **DML 전략** | Copy-on-Write (전체 재작성) | Deletion Vectors (유연한 쓰기) |
 | **외부 접근** | 제한적 (Iceberg 지원 확대 중) | 완전 개방 (Direct Access 가능) |
 
-**결론적으로,**
+**결론적으로**
 데이터의 무결성과 관리의 편의성(Zero Ops)이 최우선이며 DML 빈도가 낮다면 **Snowflake**의 방식이 안정적이다. 반면, 데이터에 대한 완전한 소유권을 원하거나, 대규모의 복잡한 DML 트랜잭션 성능을 튜닝해야 한다면 **Databricks(Delta Lake)**가 비용과 성능 면에서 유리한 고지를 점한다.
