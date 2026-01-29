@@ -15,7 +15,7 @@ tags: ["JSON", "Variant", "NoSQL", "Shredding", "Wrap-up"]
 
 Snowflake가 시장의 판도를 바꿀 수 있었던 가장 강력한 무기는 단연 **`VARIANT`** 데이터 타입이었다.
 
-### 1.1 기술적 원리: Shredding (분쇄)
+### 1.1 기술적 원리: Shredding (분쇄) 
 
 사용자가 JSON 문서를 `VARIANT` 컬럼에 로드하면, Snowflake는 단순히 이를 텍스트 덩어리(BLOB)로 저장하지 않는다. 백그라운드에서 데이터를 파싱하여 키-값(Key-Value) 쌍을 추출하고, 자주 등장하는 경로는 **내부적으로 별도의 컬럼으로 분리(Columnarization)**하여 저장한다.
 
