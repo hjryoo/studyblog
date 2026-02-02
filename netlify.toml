@@ -12,7 +12,6 @@ command = "bundle exec jekyll build --incremental"
 publish = "_site"
 
 [build.environment]
-RUBY_VERSION = "3.4.5"
 JEKYLL_ENV = "production"
 # Nokogiri 등 무거운 Gem 설치 속도 향상을 위한 옵션
 BUNDLE_JOBS = "4"
