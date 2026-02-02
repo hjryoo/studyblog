@@ -1,18 +1,21 @@
-# [[plugins]] 섹션 추가 (가장 중요)
-# Jekyll의 캐시 폴더를 다음 빌드까지 유지시켜주는 플러그인입니다.
-# 이 플러그인이 없으면 --incremental 옵션이 작동하지 않습니다.
-[[plugins]]
-package = "netlify-plugin-jekyll-cache"
-
 [build]
-# 1. 'bundle install' 삭제: Netlify가 알아서 캐싱하여 설치하므로 명령어에서 뺍니다.
-# 2. '--incremental' 추가: 변경된 파일만 빌드합니다.
-command = "bundle exec jekyll build --incremental"
-
 publish = "_site"
+command = "bundle exec jekyll build"
 
 [build.environment]
 JEKYLL_ENV = "production"
-# Nokogiri 등 무거운 Gem 설치 속도 향상을 위한 옵션
 BUNDLE_JOBS = "4"
 BUNDLE_RETRY = "3"
+BUNDLE_WITHOUT = "test"
+# bundler가 vendor/bundle 같은 곳에 깔려서 캐시효율/권한문제 나는 걸 방지
+BUNDLE_PATH = "/opt/build/cache/bundle"
+
+# 선택: Jekyll의 캐시를 켜서 다음 빌드를 더 빠르게
+JEKYLL_CACHE_DIR = ".jekyll-cache"
+
+# ✅ 아주 중요: ruby 버전 통일이 끝난 뒤에만 사용 권장
+# (캐시가 깨진 상태에서 incremental은 효과 거의 없음)
+# command = "bundle exec jekyll build --incremental"
+
+[[plugins]]
+package = "netlify-plugin-jekyll-cache"
