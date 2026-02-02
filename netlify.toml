@@ -3,6 +3,7 @@ publish = "_site"
 command = "bundle exec jekyll build"
 
 [build.environment]
+RUBY_VERSION = "3.4.8"
 JEKYLL_ENV = "production"
 BUNDLE_JOBS = "4"
 BUNDLE_RETRY = "3"
