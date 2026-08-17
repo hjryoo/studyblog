@@ -1,0 +1,58 @@
+name: Publish Scheduled Post
+
+on:
+  # 00:10 KST Monday-Friday is 15:10 UTC Sunday-Thursday.
+  # GitHub Actions cron uses UTC and can start a few minutes late.
+  schedule:
+    - cron: '10 15 * * 0-4'
+  workflow_dispatch:
+    inputs:
+      publish_date:
+        description: 'Date to publish in YYYY-MM-DD (blank means today in Asia/Seoul)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scheduled-post-publisher
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Promote today's post
+        id: promote
+        env:
+          REQUESTED_DATE: ${{ github.event.inputs.publish_date }}
+        run: |
+          args=()
+          if [[ -n "$REQUESTED_DATE" ]]; then
+            args+=(--date "$REQUESTED_DATE")
+          fi
+          node scripts/publish-scheduled-post.mjs "${args[@]}"
+
+      - name: Commit and push the published post
+        if: steps.promote.outputs.published == 'true'
+        env:
+          PUBLISH_DATE: ${{ steps.promote.outputs.publish_date }}
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- _scheduled_posts _posts
+          git commit -m "post: publish ${PUBLISH_DATE} scheduled article"
+          git pull --rebase origin main
+          git push origin HEAD:main
