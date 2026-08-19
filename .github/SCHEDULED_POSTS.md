@@ -34,6 +34,12 @@ Scheduled workflows are not guaranteed to start at the exact minute. The publish
 
 ## Local checks
 
+Validate every queued article, including weekday continuity, unique dates and titles, front matter dates, fenced code blocks, and minimum content length:
+
+```bash
+node scripts/validate-scheduled-posts.mjs
+```
+
 Preview a promotion without changing files:
 
 ```bash
