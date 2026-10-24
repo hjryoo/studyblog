@@ -15,6 +15,11 @@ on:
 permissions:
   contents: write
 
+env:
+  # Weekday articles have been prepared through the end of 2026.
+  # Advance this date when extending the committed publication plan.
+  EXPECTED_THROUGH: '2026-12-31'
+
 concurrency:
   group: scheduled-post-publisher
   cancel-in-progress: false
@@ -34,12 +39,15 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Test scheduled publisher
+        run: node --test scripts/publish-scheduled-post.test.mjs
+
       - name: Promote today's post
         id: promote
         env:
           REQUESTED_DATE: ${{ github.event.inputs.publish_date }}
         run: |
-          args=()
+          args=(--expected-through "$EXPECTED_THROUGH")
           if [[ -n "$REQUESTED_DATE" ]]; then
             args+=(--date "$REQUESTED_DATE")
           fi

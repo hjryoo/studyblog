@@ -10,6 +10,8 @@ function usage() {
 
 Options:
   --date YYYY-MM-DD   Publish this date instead of today's date in Asia/Seoul
+  --expected-through YYYY-MM-DD
+                      Fail if a weekday post is missing through this date
   --dry-run           Validate and print the move without changing files
   --queue-root PATH   Override the queue root (default: _scheduled_posts)
   --posts-root PATH   Override the posts root (default: _posts)
@@ -20,6 +22,7 @@ Options:
 function parseArgs(argv) {
   const options = {
     date: null,
+    expectedThrough: null,
     dryRun: false,
     queueRoot: '_scheduled_posts',
     postsRoot: '_posts',
@@ -29,11 +32,12 @@ function parseArgs(argv) {
     const arg = argv[index];
     if (arg === '--dry-run') {
       options.dryRun = true;
-    } else if (arg === '--date' || arg === '--queue-root' || arg === '--posts-root') {
+    } else if (['--date', '--expected-through', '--queue-root', '--posts-root'].includes(arg)) {
       const value = argv[index + 1];
       if (!value) throw new Error(`${arg} requires a value`);
       index += 1;
       if (arg === '--date') options.date = value;
+      if (arg === '--expected-through') options.expectedThrough = value;
       if (arg === '--queue-root') options.queueRoot = value;
       if (arg === '--posts-root') options.postsRoot = value;
     } else if (arg === '--help') {
@@ -117,6 +121,9 @@ function writeGithubOutput(values) {
 function main() {
   const options = parseArgs(process.argv.slice(2));
   const publishDate = validateDate(options.date ?? seoulDate());
+  const expectedThrough = options.expectedThrough === null
+    ? null
+    : validateDate(options.expectedThrough);
   const queueRoot = path.resolve(options.queueRoot);
   const postsRoot = path.resolve(options.postsRoot);
   const candidates = markdownFiles(queueRoot)
@@ -124,6 +131,26 @@ function main() {
     .sort();
 
   if (candidates.length === 0) {
+    const existing = markdownFiles(postsRoot)
+      .filter((file) => path.basename(file).startsWith(`${publishDate}-`));
+    if (existing.length > 1) {
+      throw new Error(`Expected one published post for ${publishDate}, found ${existing.length}`);
+    }
+    if (existing.length === 1) {
+      validatePost(existing[0], publishDate);
+      console.log(`Post for ${publishDate} is already published. Nothing to publish.`);
+      writeGithubOutput({ published: 'false', publish_date: publishDate });
+      return;
+    }
+
+    const weekday = new Date(`${publishDate}T00:00:00Z`).getUTCDay();
+    if (expectedThrough !== null && publishDate <= expectedThrough && weekday !== 0 && weekday !== 6) {
+      throw new Error(
+        `Missing scheduled post for ${publishDate} (publication expected through ${expectedThrough}). `
+        + 'Check that the article commits were pushed to main; restore the missing date before retrying.',
+      );
+    }
+
     console.log(`No scheduled post for ${publishDate}. Nothing to publish.`);
     writeGithubOutput({ published: 'false', publish_date: publishDate });
     return;
