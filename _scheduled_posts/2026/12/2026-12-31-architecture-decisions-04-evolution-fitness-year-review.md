@@ -68,6 +68,6 @@ superseded 비율, 재검토 기한 초과, fitness 위반, 검증되지 않은 
 - [AWS Architectural Decision Records](https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/)
 - [Microsoft Architecture Decision Records](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record)
 
-## 시리즈 마무리
+## 다음 글
 
-이번 연재에서 다룬 원칙을 실제 시스템의 설계·배포·운영 흐름에 연결해 반복 가능한 기준으로 만들자.
+다음 글에서는 [가정에서 실험으로 - 새해 로드맵에 검증 조건 붙이기](/posts/architecture-decisions-05-roadmap-experiments/)를 다룬다. 연말에 정리한 결정과 부채를 소유자·기간·검증 기준이 있는 실험으로 연결하며 5일 연재를 마무리한다.

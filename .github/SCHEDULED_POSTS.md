@@ -28,7 +28,7 @@ Scheduled workflows are not guaranteed to start at the exact minute. The publish
 - The front matter date must match the filename date.
 - Exactly one queued article may exist for a publication date.
 - Existing `_posts` files are never overwritten.
-- The workflow declares `EXPECTED_THROUGH: '2026-12-31'`. A missing weekday article on or before that date fails the run, including when the queue is empty. Advance this date when extending the publication plan.
+- The workflow declares `EXPECTED_THROUGH: '2027-07-02'`. A missing weekday article on or before that date fails the run, including when the queue is empty. Advance this date when extending the publication plan.
 - A date already present in `_posts` exits successfully without creating an empty commit, so a retry is safe.
 - Weekends and unmatched dates after `EXPECTED_THROUGH` exit successfully without an empty commit.
 - A fenced Markdown code block must be closed before the file can move.
@@ -51,7 +51,7 @@ node --test scripts/publish-scheduled-post.test.mjs
 Preview a promotion without changing files:
 
 ```bash
-node scripts/publish-scheduled-post.mjs --date 2026-10-26 --expected-through 2026-12-31 --dry-run
+node scripts/publish-scheduled-post.mjs --date 2027-01-01 --expected-through 2027-07-02 --dry-run
 ```
 
 Test against disposable directories:
@@ -80,6 +80,12 @@ The workflow uses `git pull --rebase` before push to absorb unrelated commits th
 The workflow and `_scheduled_posts` queue must be committed **and pushed to remote `main`**. A local commit is not available to GitHub Actions. The initial commit can include the article for the current day under `_posts`; later weekday publications are individual bot commits created by the workflow.
 
 Before leaving new queued articles to the scheduler, fetch the latest remote history and confirm that `git log origin/main..HEAD -- _scheduled_posts` is empty after pushing. A successful Actions run alone does not establish that an article was published; check its promotion output and the resulting bot commit.
+
+## January-June 2027 extension
+
+The [2027 first-half editorial plan](POST_PLAN_2027_H1.md) adds 131 queued articles: 129 weekdays in January-June and July 1-2 to complete the final five-day series. January 1 completes the architecture-decision series that starts in December 2026. Twenty-six new Monday-Friday series follow from January 4 through July 2.
+
+The existing promotion time and one-article-per-weekday behavior are unchanged. The extended missing-article guard becomes active on GitHub only after the queue, workflow and tests are pushed together.
 
 ## 2026-10-24 recovery
 

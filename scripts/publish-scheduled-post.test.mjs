@@ -93,6 +93,45 @@ test('the final promised weekday still fails if its article is missing', (t) => 
   assert.match(result.stderr, /Missing scheduled post for 2026-12-31/);
 });
 
+test('the extended horizon requires articles throughout the 2027 plan', (t) => {
+  const f = fixture(t);
+  for (const date of ['2027-01-01', '2027-06-30', '2027-07-02']) {
+    const result = f.run('--date', date, '--expected-through', '2027-07-02');
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, new RegExp(`Missing scheduled post for ${date}`));
+  }
+});
+
+test('the first, June-end and final 2027 articles publish safely and can be retried', (t) => {
+  const f = fixture(t);
+  for (const date of ['2027-01-01', '2027-06-30', '2027-07-02']) {
+    const source = f.add(f.queue, date);
+    const args = ['--date', date, '--expected-through', '2027-07-02'];
+    const preview = f.run(...args, '--dry-run');
+    assert.equal(preview.status, 0, preview.stderr);
+    assert.equal(fs.existsSync(source), true);
+    const result = f.run(...args);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(fs.existsSync(source), false);
+    const target = path.join(f.posts, date.slice(0, 4), date.slice(5, 7), `${date}-article.md`);
+    const original = fs.readFileSync(target, 'utf8');
+    const retry = f.run(...args);
+    assert.equal(retry.status, 0, retry.stderr);
+    assert.match(retry.stdout, /already published/);
+    assert.equal(fs.readFileSync(target, 'utf8'), original);
+  }
+});
+
+test('the weekend and first weekday after the extended horizon are no-ops', (t) => {
+  const f = fixture(t);
+  for (const date of ['2027-07-03', '2027-07-05']) {
+    const result = f.run('--date', date, '--expected-through', '2027-07-02');
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /Nothing to publish/);
+    assert.equal(fs.existsSync(f.posts), false);
+  }
+});
+
 test('dry-run validates without moving an article', (t) => {
   const f = fixture(t);
   const source = f.add();

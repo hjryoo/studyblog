@@ -16,9 +16,9 @@ permissions:
   contents: write
 
 env:
-  # Weekday articles have been prepared through the end of 2026.
+  # The January-June 2027 plan includes July 1-2 to finish its final five-day series.
   # Advance this date when extending the committed publication plan.
-  EXPECTED_THROUGH: '2026-12-31'
+  EXPECTED_THROUGH: '2027-07-02'
 
 concurrency:
   group: scheduled-post-publisher
